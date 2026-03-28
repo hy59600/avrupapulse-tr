@@ -20,9 +20,29 @@ public class ArticleController {
         return service.getPublishedArticles();
     }
 
+    @GetMapping("/drafts")
+    public List<Article> getDraftArticles() {
+        return service.getDraftArticles();
+    }
+
+    @GetMapping("/{id}")
+    public Article getArticle(@PathVariable String id) {
+        return service.getPublishedArticle(id);
+    }
+
     @PostMapping
     public Article createArticle(@Valid @RequestBody CreateArticleRequest request) {
         return service.createArticle(request);
+    }
+
+    @PutMapping("/{id}")
+    public Article updateArticle(@PathVariable String id, @Valid @RequestBody CreateArticleRequest request) {
+        return service.updateDraftArticle(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteArticle(@PathVariable String id) {
+        service.deleteDraftArticle(id);
     }
 
     @PostMapping("/{id}/publish")

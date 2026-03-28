@@ -1,6 +1,8 @@
 package de.avrupapulse.backend;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 import java.util.List;
@@ -23,14 +25,34 @@ public class ArticleService {
         Article article = new Article();
 
         article.setId(UUID.randomUUID().toString());
-        article.setTitleTr(request.getTitleTr());
-        article.setSummaryTr(request.getSummaryTr());
-        article.setSourceName(request.getSourceName());
-        article.setSourceUrl(request.getSourceUrl());
+        applyArticleData(article, request);
         article.setStatus(ArticleStatus.DRAFT);
         article.setCreatedAt(Instant.now());
 
         return repository.save(article);
+    }
+
+    public Article updateDraftArticle(String id, CreateArticleRequest request) {
+        Article article = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found"));
+
+        if (article.getStatus() != ArticleStatus.DRAFT) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only draft articles can be updated");
+        }
+
+        applyArticleData(article, request);
+        return repository.save(article);
+    }
+
+    public void deleteDraftArticle(String id) {
+        Article article = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found"));
+
+        if (article.getStatus() != ArticleStatus.DRAFT) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only draft articles can be deleted");
+        }
+
+        repository.delete(article);
     }
 
     public Article publishArticle(String id) {
@@ -43,5 +65,32 @@ public class ArticleService {
 
     public List<Article> getPublishedArticles() {
         return repository.findByStatus(ArticleStatus.PUBLISHED);
+    }
+
+    public List<Article> getDraftArticles() {
+        return repository.findByStatus(ArticleStatus.DRAFT);
+    }
+
+    public Article getPublishedArticle(String id) {
+        Article article = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found"));
+
+        if (article.getStatus() != ArticleStatus.PUBLISHED) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found");
+        }
+
+        return article;
+    }
+
+    private void applyArticleData(Article article, CreateArticleRequest request) {
+        article.setTitleTr(request.getTitleTr());
+        article.setTitleDe(request.getTitleDe());
+        article.setSummaryTr(request.getSummaryTr());
+        article.setSummaryDe(request.getSummaryDe());
+        article.setContentTr(request.getContentTr());
+        article.setContentDe(request.getContentDe());
+        article.setSourceName(request.getSourceName());
+        article.setSourceUrl(request.getSourceUrl());
+        article.setCategory(request.getCategory());
     }
 }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class CreateArticleRequest {
+public class CreateVideoRequest {
 
     @NotBlank
     @Size(max = 180)
@@ -19,18 +19,16 @@ public class CreateArticleRequest {
     private String summaryDe;
 
     @NotBlank
-    private String contentTr;
-
-    private String contentDe;
-
-    @NotBlank
     private String sourceName;
 
     @NotBlank
     private String sourceUrl;
 
+    @NotBlank
+    private String videoUrl;
+
     @NotNull
-    private ArticleCategory category;
+    private VideoCategory category;
 
     public String getTitleTr() {
         return titleTr;
@@ -64,22 +62,6 @@ public class CreateArticleRequest {
         this.summaryDe = summaryDe;
     }
 
-    public String getContentTr() {
-        return contentTr;
-    }
-
-    public void setContentTr(String contentTr) {
-        this.contentTr = contentTr;
-    }
-
-    public String getContentDe() {
-        return contentDe;
-    }
-
-    public void setContentDe(String contentDe) {
-        this.contentDe = contentDe;
-    }
-
     public String getSourceName() {
         return sourceName;
     }
@@ -96,11 +78,19 @@ public class CreateArticleRequest {
         this.sourceUrl = sourceUrl;
     }
 
-    public ArticleCategory getCategory() {
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public VideoCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ArticleCategory category) {
+    public void setCategory(VideoCategory category) {
         this.category = category;
     }
 }

@@ -18,13 +18,13 @@ The long-term goal is to create a reliable media product for a real audience, no
 ```text
 avrupapulse-tr/
 ├── backend/      -> Spring Boot API
-├── frontend/     -> Web client for readers (planned)
+├── frontend/     -> React + Vite reader client
 └── README.md
 ```
 
 ## Current Status
 
-The repository currently contains the backend implementation.
+The repository now contains both a backend service and an initial frontend application.
 
 The backend already supports:
 
@@ -32,7 +32,12 @@ The backend already supports:
 - publishing articles
 - listing published articles
 
-The frontend has not been implemented yet, but it is planned as the next major part of the project.
+The frontend already includes:
+
+- a homepage layout
+- a featured article area
+- a latest headlines section
+- live article loading from the backend API
 
 ## Backend
 
@@ -105,17 +110,16 @@ Default local connection settings:
 - Username: `sa`
 - Password: empty
 
-## Frontend Plan
+## Frontend
 
-The frontend will be developed as a separate application under the `frontend/` directory.
+The frontend is implemented as a separate application under the `frontend/` directory.
 
 Its purpose will be to display published news articles in a clean, fast, and responsive interface for readers. The frontend will consume data from the backend REST API and turn the article records into a usable newspaper-style reading experience.
 
-### Planned Frontend Responsibilities
+### Current Frontend Responsibilities
 
 - show the latest published articles on the homepage
-- display article detail pages
-- support category-based navigation
+- highlight one featured story
 - provide a mobile-friendly reading experience
 - present a Turkish-language interface
 
@@ -133,7 +137,35 @@ The frontend will request published articles from the backend:
 GET /api/articles
 ```
 
-Those results will be shown on the homepage as news cards or headline sections. When article detail support is added on the backend, the frontend can be extended with dedicated article pages.
+Those results are shown on the homepage as a featured story and headline cards. When article detail support is added on the backend, the frontend can be extended with dedicated article pages.
+
+### Running the Frontend
+
+From the `frontend` directory:
+
+```bash
+npm install
+npm run dev
+```
+
+The frontend runs on:
+
+```text
+http://localhost:5173
+```
+
+The Vite development server is configured to proxy `/api` requests to:
+
+```text
+http://localhost:8080
+```
+
+So the normal development flow is:
+
+1. start the backend
+2. start the frontend
+3. publish an article from the backend API
+4. refresh the frontend homepage
 
 ## Example API Usage
 
@@ -170,7 +202,6 @@ Invoke-RestMethod -Method Get `
 ## Roadmap
 
 - build the frontend application
-- connect the frontend to the backend API
 - add article detail support
 - add categories and homepage sections
 - improve validation and error handling
@@ -181,4 +212,4 @@ Invoke-RestMethod -Method Get `
 
 ## Summary
 
-Avrupapulse TR is planned as a full digital newspaper platform for Turkish-speaking communities in Europe, especially in Germany. The backend is already in progress, and the next major step is to build the frontend experience that readers will use directly.
+Avrupapulse TR is a growing digital newspaper platform for Turkish-speaking communities in Europe, especially in Germany. The project now includes a working backend and an initial frontend, with the next steps focused on richer editorial features and a fuller reading experience.

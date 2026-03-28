@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import java.time.Instant;
 
 @Entity
-public class Article {
+public class Video {
 
     @Id
     private String id;
@@ -17,20 +17,25 @@ public class Article {
     private ArticleStatus status;
 
     @Enumerated(EnumType.STRING)
-    private ArticleCategory category;
+    private VideoCategory category;
 
     private String titleTr;
     private String titleDe;
     private String summaryTr;
     private String summaryDe;
-    private String contentTr;
-    private String contentDe;
     private String sourceName;
     private String sourceUrl;
+    private String videoUrl;
     private Instant createdAt;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+
+    public ArticleStatus getStatus() { return status; }
+    public void setStatus(ArticleStatus status) { this.status = status; }
+
+    public VideoCategory getCategory() { return category; }
+    public void setCategory(VideoCategory category) { this.category = category; }
 
     public String getTitleTr() { return titleTr; }
     public void setTitleTr(String titleTr) { this.titleTr = titleTr; }
@@ -44,23 +49,14 @@ public class Article {
     public String getSummaryDe() { return summaryDe; }
     public void setSummaryDe(String summaryDe) { this.summaryDe = summaryDe; }
 
-    public String getContentTr() { return contentTr; }
-    public void setContentTr(String contentTr) { this.contentTr = contentTr; }
-
-    public String getContentDe() { return contentDe; }
-    public void setContentDe(String contentDe) { this.contentDe = contentDe; }
-
     public String getSourceName() { return sourceName; }
     public void setSourceName(String sourceName) { this.sourceName = sourceName; }
 
     public String getSourceUrl() { return sourceUrl; }
     public void setSourceUrl(String sourceUrl) { this.sourceUrl = sourceUrl; }
 
-    public ArticleStatus getStatus() { return status; }
-    public void setStatus(ArticleStatus status) { this.status = status; }
-
-    public ArticleCategory getCategory() { return category; }
-    public void setCategory(ArticleCategory category) { this.category = category; }
+    public String getVideoUrl() { return videoUrl; }
+    public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
